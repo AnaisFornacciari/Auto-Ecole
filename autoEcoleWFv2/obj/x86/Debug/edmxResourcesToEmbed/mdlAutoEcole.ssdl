@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="mdlAutoEcole.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="mdlAutoEcoleStoreContainer">
+    <EntitySet Name="eleve" EntityType="mdlAutoEcole.Store.eleve" store:Type="Tables" Schema="autoecole" />
+    <EntitySet Name="lecon" EntityType="mdlAutoEcole.Store.lecon" store:Type="Tables" Schema="autoecole" />
+    <EntitySet Name="vehicule" EntityType="mdlAutoEcole.Store.vehicule" store:Type="Tables" Schema="autoecole" />
+    <AssociationSet Name="lecon_ibfk_1" Association="mdlAutoEcole.Store.lecon_ibfk_1">
+      <End Role="vehicule" EntitySet="vehicule" />
+      <End Role="lecon" EntitySet="lecon" />
+    </AssociationSet>
+    <AssociationSet Name="lecon_ibfk_2" Association="mdlAutoEcole.Store.lecon_ibfk_2">
+      <End Role="eleve" EntitySet="eleve" />
+      <End Role="lecon" EntitySet="lecon" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="eleve">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="20" />
+    <Property Name="dateInscription" Type="date" />
+    <Property Name="prenom" Type="varchar" MaxLength="20" />
+    <Property Name="adresse" Type="varchar" MaxLength="30" />
+    <Property Name="creditHoraire" Type="int" />
+  </EntityType>
+  <EntityType Name="lecon">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="idEleve" Type="int" />
+    <Property Name="heure" Type="int" />
+    <Property Name="duree" Type="int" />
+    <Property Name="effectueeOui_Non" Type="bool" Nullable="false" />
+    <Property Name="numImmaVehicule" Type="varchar" MaxLength="8" />
+  </EntityType>
+  <EntityType Name="vehicule">
+    <Key>
+      <PropertyRef Name="numImma" />
+    </Key>
+    <Property Name="numImma" Type="varchar" Nullable="false" MaxLength="8" />
+    <Property Name="modele" Type="varchar" MaxLength="20" />
+    <Property Name="couleur" Type="varchar" MaxLength="30" />
+    <Property Name="enEtat" Type="bool" Nullable="false" />
+  </EntityType>
+  <Association Name="lecon_ibfk_1">
+    <End Role="vehicule" Type="mdlAutoEcole.Store.vehicule" Multiplicity="0..1" />
+    <End Role="lecon" Type="mdlAutoEcole.Store.lecon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="vehicule">
+        <PropertyRef Name="numImma" />
+      </Principal>
+      <Dependent Role="lecon">
+        <PropertyRef Name="numImmaVehicule" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="lecon_ibfk_2">
+    <End Role="eleve" Type="mdlAutoEcole.Store.eleve" Multiplicity="0..1" />
+    <End Role="lecon" Type="mdlAutoEcole.Store.lecon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eleve">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="lecon">
+        <PropertyRef Name="idEleve" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

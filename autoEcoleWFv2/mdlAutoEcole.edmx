@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="mdlAutoEcole.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="mdlAutoEcoleStoreContainer">
+          <EntitySet Name="eleve" EntityType="mdlAutoEcole.Store.eleve" store:Type="Tables" Schema="autoecole" />
+          <EntitySet Name="lecon" EntityType="mdlAutoEcole.Store.lecon" store:Type="Tables" Schema="autoecole" />
+          <EntitySet Name="vehicule" EntityType="mdlAutoEcole.Store.vehicule" store:Type="Tables" Schema="autoecole" />
+          <AssociationSet Name="lecon_ibfk_1" Association="mdlAutoEcole.Store.lecon_ibfk_1">
+            <End Role="vehicule" EntitySet="vehicule" />
+            <End Role="lecon" EntitySet="lecon" />
+          </AssociationSet>
+          <AssociationSet Name="lecon_ibfk_2" Association="mdlAutoEcole.Store.lecon_ibfk_2">
+            <End Role="eleve" EntitySet="eleve" />
+            <End Role="lecon" EntitySet="lecon" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="eleve">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="20" />
+          <Property Name="dateInscription" Type="date" />
+          <Property Name="prenom" Type="varchar" MaxLength="20" />
+          <Property Name="adresse" Type="varchar" MaxLength="30" />
+          <Property Name="creditHoraire" Type="int" />
+        </EntityType>
+        <EntityType Name="lecon">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="idEleve" Type="int" />
+          <Property Name="heure" Type="int" />
+          <Property Name="duree" Type="int" />
+          <Property Name="effectueeOui_Non" Type="bool" Nullable="false" />
+          <Property Name="numImmaVehicule" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="vehicule">
+          <Key>
+            <PropertyRef Name="numImma" />
+          </Key>
+          <Property Name="numImma" Type="varchar" Nullable="false" MaxLength="8" />
+          <Property Name="modele" Type="varchar" MaxLength="20" />
+          <Property Name="couleur" Type="varchar" MaxLength="30" />
+          <Property Name="enEtat" Type="bool" Nullable="false" />
+        </EntityType>
+        <Association Name="lecon_ibfk_1">
+          <End Role="vehicule" Type="mdlAutoEcole.Store.vehicule" Multiplicity="0..1" />
+          <End Role="lecon" Type="mdlAutoEcole.Store.lecon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vehicule">
+              <PropertyRef Name="numImma" />
+            </Principal>
+            <Dependent Role="lecon">
+              <PropertyRef Name="numImmaVehicule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="lecon_ibfk_2">
+          <End Role="eleve" Type="mdlAutoEcole.Store.eleve" Multiplicity="0..1" />
+          <End Role="lecon" Type="mdlAutoEcole.Store.lecon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="eleve">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lecon">
+              <PropertyRef Name="idEleve" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="mdlAutoEcole" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="mdlAutoEcoleContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="eleves" EntityType="mdlAutoEcole.eleve" />
+          <EntitySet Name="lecons" EntityType="mdlAutoEcole.lecon" />
+          <EntitySet Name="vehicules" EntityType="mdlAutoEcole.vehicule" />
+          <AssociationSet Name="lecon_ibfk_2" Association="mdlAutoEcole.lecon_ibfk_2">
+            <End Role="eleve" EntitySet="eleves" />
+            <End Role="lecon" EntitySet="lecons" />
+          </AssociationSet>
+          <AssociationSet Name="lecon_ibfk_1" Association="mdlAutoEcole.lecon_ibfk_1">
+            <End Role="vehicule" EntitySet="vehicules" />
+            <End Role="lecon" EntitySet="lecons" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="eleve">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="nom" />
+          <Property Type="DateTime" Name="dateInscription" />
+          <Property Type="String" Name="prenom" />
+          <Property Type="String" Name="adresse" />
+          <Property Type="Int32" Name="creditHoraire" />
+          <NavigationProperty Name="lecons" Relationship="mdlAutoEcole.lecon_ibfk_2" FromRole="eleve" ToRole="lecon" />
+        </EntityType>
+        <EntityType Name="lecon">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="DateTime" Name="date" Nullable="false" />
+          <Property Type="Int32" Name="idEleve" />
+          <Property Type="Int32" Name="heure" />
+          <Property Type="Int32" Name="duree" />
+          <Property Type="Boolean" Name="effectueeOui_Non" Nullable="false" />
+          <Property Type="String" Name="numImmaVehicule" />
+          <NavigationProperty Name="eleve" Relationship="mdlAutoEcole.lecon_ibfk_2" FromRole="lecon" ToRole="eleve" />
+          <NavigationProperty Name="vehicule" Relationship="mdlAutoEcole.lecon_ibfk_1" FromRole="lecon" ToRole="vehicule" />
+        </EntityType>
+        <EntityType Name="vehicule">
+          <Key>
+            <PropertyRef Name="numImma" />
+          </Key>
+          <Property Type="String" Name="numImma" Nullable="false" />
+          <Property Type="String" Name="modele" />
+          <Property Type="String" Name="couleur" />
+          <Property Type="Boolean" Name="enEtat" Nullable="false" />
+          <NavigationProperty Name="lecons" Relationship="mdlAutoEcole.lecon_ibfk_1" FromRole="vehicule" ToRole="lecon" />
+        </EntityType>
+        <Association Name="lecon_ibfk_2">
+          <End Type="mdlAutoEcole.eleve" Role="eleve" Multiplicity="0..1" />
+          <End Type="mdlAutoEcole.lecon" Role="lecon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="eleve">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lecon">
+              <PropertyRef Name="idEleve" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="lecon_ibfk_1">
+          <End Type="mdlAutoEcole.vehicule" Role="vehicule" Multiplicity="0..1" />
+          <End Type="mdlAutoEcole.lecon" Role="lecon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vehicule">
+              <PropertyRef Name="numImma" />
+            </Principal>
+            <Dependent Role="lecon">
+              <PropertyRef Name="numImmaVehicule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="mdlAutoEcole" />
+        <Alias Key="Target" Value="mdlAutoEcole.Store" />
+        <EntityContainerMapping CdmEntityContainer="mdlAutoEcoleContainer" StorageEntityContainer="mdlAutoEcoleStoreContainer">
+          <EntitySetMapping Name="eleves">
+            <EntityTypeMapping TypeName="mdlAutoEcole.eleve">
+              <MappingFragment StoreEntitySet="eleve">
+                <ScalarProperty Name="creditHoraire" ColumnName="creditHoraire" />
+                <ScalarProperty Name="adresse" ColumnName="adresse" />
+                <ScalarProperty Name="prenom" ColumnName="prenom" />
+                <ScalarProperty Name="dateInscription" ColumnName="dateInscription" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lecons">
+            <EntityTypeMapping TypeName="mdlAutoEcole.lecon">
+              <MappingFragment StoreEntitySet="lecon">
+                <ScalarProperty Name="numImmaVehicule" ColumnName="numImmaVehicule" />
+                <ScalarProperty Name="effectueeOui_Non" ColumnName="effectueeOui_Non" />
+                <ScalarProperty Name="duree" ColumnName="duree" />
+                <ScalarProperty Name="heure" ColumnName="heure" />
+                <ScalarProperty Name="idEleve" ColumnName="idEleve" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vehicules">
+            <EntityTypeMapping TypeName="mdlAutoEcole.vehicule">
+              <MappingFragment StoreEntitySet="vehicule">
+                <ScalarProperty Name="enEtat" ColumnName="enEtat" />
+                <ScalarProperty Name="couleur" ColumnName="couleur" />
+                <ScalarProperty Name="modele" ColumnName="modele" />
+                <ScalarProperty Name="numImma" ColumnName="numImma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="mdlAutoEcole" >
+        <EntityTypeShape EntityType="mdlAutoEcole.eleve" Width="1.5" PointX="0.75" PointY="1.125" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="mdlAutoEcole.lecon" Width="1.5" PointX="3" PointY="1" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="mdlAutoEcole.vehicule" Width="1.5" PointX="0.75" PointY="5.375" Height="1.9802864583333335" />
+        <AssociationConnector Association="mdlAutoEcole.lecon_ibfk_2" >
+          <ConnectorPoint PointX="2.25" PointY="2.3074446614583337" />
+          <ConnectorPoint PointX="3" PointY="2.3074446614583337" />
+        </AssociationConnector>
+        <AssociationConnector Association="mdlAutoEcole.lecon_ibfk_1" >
+          <ConnectorPoint PointX="2.25" PointY="6.3651432291666667" />
+          <ConnectorPoint PointX="3.75" PointY="6.3651432291666667" />
+          <ConnectorPoint PointX="3.75" PointY="3.7494921874999996" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

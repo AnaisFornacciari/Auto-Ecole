@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="mdlAutoEcole" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="mdlAutoEcoleContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="eleves" EntityType="mdlAutoEcole.eleve" />
+    <EntitySet Name="lecons" EntityType="mdlAutoEcole.lecon" />
+    <EntitySet Name="vehicules" EntityType="mdlAutoEcole.vehicule" />
+    <AssociationSet Name="lecon_ibfk_2" Association="mdlAutoEcole.lecon_ibfk_2">
+      <End Role="eleve" EntitySet="eleves" />
+      <End Role="lecon" EntitySet="lecons" />
+    </AssociationSet>
+    <AssociationSet Name="lecon_ibfk_1" Association="mdlAutoEcole.lecon_ibfk_1">
+      <End Role="vehicule" EntitySet="vehicules" />
+      <End Role="lecon" EntitySet="lecons" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="eleve">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="nom" />
+    <Property Type="DateTime" Name="dateInscription" />
+    <Property Type="String" Name="prenom" />
+    <Property Type="String" Name="adresse" />
+    <Property Type="Int32" Name="creditHoraire" />
+    <NavigationProperty Name="lecons" Relationship="mdlAutoEcole.lecon_ibfk_2" FromRole="eleve" ToRole="lecon" />
+  </EntityType>
+  <EntityType Name="lecon">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="DateTime" Name="date" Nullable="false" />
+    <Property Type="Int32" Name="idEleve" />
+    <Property Type="Int32" Name="heure" />
+    <Property Type="Int32" Name="duree" />
+    <Property Type="Boolean" Name="effectueeOui_Non" Nullable="false" />
+    <Property Type="String" Name="numImmaVehicule" />
+    <NavigationProperty Name="eleve" Relationship="mdlAutoEcole.lecon_ibfk_2" FromRole="lecon" ToRole="eleve" />
+    <NavigationProperty Name="vehicule" Relationship="mdlAutoEcole.lecon_ibfk_1" FromRole="lecon" ToRole="vehicule" />
+  </EntityType>
+  <EntityType Name="vehicule">
+    <Key>
+      <PropertyRef Name="numImma" />
+    </Key>
+    <Property Type="String" Name="numImma" Nullable="false" />
+    <Property Type="String" Name="modele" />
+    <Property Type="String" Name="couleur" />
+    <Property Type="Boolean" Name="enEtat" Nullable="false" />
+    <NavigationProperty Name="lecons" Relationship="mdlAutoEcole.lecon_ibfk_1" FromRole="vehicule" ToRole="lecon" />
+  </EntityType>
+  <Association Name="lecon_ibfk_2">
+    <End Type="mdlAutoEcole.eleve" Role="eleve" Multiplicity="0..1" />
+    <End Type="mdlAutoEcole.lecon" Role="lecon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eleve">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="lecon">
+        <PropertyRef Name="idEleve" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="lecon_ibfk_1">
+    <End Type="mdlAutoEcole.vehicule" Role="vehicule" Multiplicity="0..1" />
+    <End Type="mdlAutoEcole.lecon" Role="lecon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="vehicule">
+        <PropertyRef Name="numImma" />
+      </Principal>
+      <Dependent Role="lecon">
+        <PropertyRef Name="numImmaVehicule" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

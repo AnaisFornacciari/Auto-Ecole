@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs" Space="C-S">
+  <Alias Key="Model" Value="mdlAutoEcole" />
+  <Alias Key="Target" Value="mdlAutoEcole.Store" />
+  <EntityContainerMapping CdmEntityContainer="mdlAutoEcoleContainer" StorageEntityContainer="mdlAutoEcoleStoreContainer">
+    <EntitySetMapping Name="eleves">
+      <EntityTypeMapping TypeName="mdlAutoEcole.eleve">
+        <MappingFragment StoreEntitySet="eleve">
+          <ScalarProperty Name="creditHoraire" ColumnName="creditHoraire" />
+          <ScalarProperty Name="adresse" ColumnName="adresse" />
+          <ScalarProperty Name="prenom" ColumnName="prenom" />
+          <ScalarProperty Name="dateInscription" ColumnName="dateInscription" />
+          <ScalarProperty Name="nom" ColumnName="nom" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lecons">
+      <EntityTypeMapping TypeName="mdlAutoEcole.lecon">
+        <MappingFragment StoreEntitySet="lecon">
+          <ScalarProperty Name="numImmaVehicule" ColumnName="numImmaVehicule" />
+          <ScalarProperty Name="effectueeOui_Non" ColumnName="effectueeOui_Non" />
+          <ScalarProperty Name="duree" ColumnName="duree" />
+          <ScalarProperty Name="heure" ColumnName="heure" />
+          <ScalarProperty Name="idEleve" ColumnName="idEleve" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vehicules">
+      <EntityTypeMapping TypeName="mdlAutoEcole.vehicule">
+        <MappingFragment StoreEntitySet="vehicule">
+          <ScalarProperty Name="enEtat" ColumnName="enEtat" />
+          <ScalarProperty Name="couleur" ColumnName="couleur" />
+          <ScalarProperty Name="modele" ColumnName="modele" />
+          <ScalarProperty Name="numImma" ColumnName="numImma" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
